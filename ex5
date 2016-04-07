@@ -1,0 +1,35 @@
+n = int(input())
+import pprint
+G = {}
+childrens = []
+times = {}
+time = 1
+def recur(graf,start,time,times):
+    times[start] = [start,time]
+    b = time + 1
+    for x in graf[start]:
+        if x not in times:
+            a,b = recur(graf,x,b,times)
+    times[start].append(b)
+    return times,b+1
+for i in range(n-1):
+    a,b = input().split()
+    a,b = b,a
+    if a not in G:
+        G[a] = {b}
+    else:
+        G[a].add(b)
+    if b not in G:
+        G[b] = set()
+    childrens.append(b)
+for x in G:
+    if x not in childrens:
+        rud = x
+        break
+times,f = recur(G,rud,time,times)
+printing = []
+for x in times:
+    printing.append(times[x])
+printing.sort()
+for x in printing:
+    print(*x)
